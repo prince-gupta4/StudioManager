@@ -47,4 +47,5 @@ if (parsed.data.STORAGE_LOCAL === "0") {
 export const env = {
     ...parsed.data,
     cookieSecure: parsed.data.COOKIE_SECURE === "1" || parsed.data.NODE_ENV === "production",
+    cookieSameSite: parsed.data.NODE_ENV === "production" ? "none" : "lax",
 };

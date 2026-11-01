@@ -23,7 +23,7 @@ authRouter.post("/login", async (req, res, next) => {
         res.cookie("session", token, {
             httpOnly: true,
             secure: env.cookieSecure,
-            sameSite: "lax",
+            sameSite: env.cookieSameSite,
             path: "/",
             maxAge: 12 * 60 * 60 * 1000,
         });
@@ -34,7 +34,7 @@ authRouter.post("/login", async (req, res, next) => {
     }
 });
 authRouter.post("/logout", (_req, res) => {
-    res.clearCookie("session", { httpOnly: true, secure: env.cookieSecure, sameSite: "lax", path: "/" });
+    res.clearCookie("session", { httpOnly: true, secure: env.cookieSecure, sameSite: env.cookieSameSite, path: "/" });
     res.status(204).end();
 });
 authRouter.get("/me", authenticate, (req, res) => {
