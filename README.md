@@ -68,6 +68,12 @@ UPLOAD_MAX_BYTES=536870912
 
 To use a different backend URL in the browser, set `NEXT_PUBLIC_API_URL` in `frontend/.env.local`; the default is `http://localhost:4000`.
 
+### Production domains and session cookies
+
+The frontend and API should use HTTPS hostnames under the same registrable domain so browsers send the secure `SameSite=Lax` session cookie on API requests. For example, use `https://reel.example.com` for the frontend and `https://api.example.com` for the API, rather than pairing a custom frontend domain with the API's `*.onrender.com` hostname. Configure the API custom domain in Render/DNS, set the frontend deployment's build-time `NEXT_PUBLIC_API_URL=https://api.example.com`, and set the Render backend environment variable `FRONTEND_URL=https://reel.example.com`. Then redeploy both services and sign in again after clearing the old API cookie.
+
+The Express app trusts the single Render proxy hop and exposes `/` and `/api/health` health checks. If using a different hosting topology, adjust the proxy hop count to match the trusted reverse proxies; do not blindly trust arbitrary forwarded headers.
+
 ### Install, start, create the first user
 
 Use separate PowerShell terminals from the project directory:
@@ -363,4 +369,3 @@ The backend's current automated tests cover permission middleware, integer-paise
 - Broader client/team profitability analytics and saved reports.
 - Phase 3 social CRM models and extension interfaces; no social API integrations or automation are implemented.
 - Live database integration tests, complete role-by-role browser testing, production deployment/backup runbooks.
-

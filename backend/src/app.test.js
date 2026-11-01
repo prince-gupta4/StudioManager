@@ -9,6 +9,10 @@ process.env.STORAGE_PROVIDER ??= "local";
 
 const { app } = await import("./app.js");
 
+test("trusts the single Render proxy hop for forwarded client IPs", () => {
+    assert.equal(app.get("trust proxy"), 1);
+});
+
 test("allows same-site frontend pages to use API-hosted media", async () => {
     const server = app.listen(0, "127.0.0.1");
     await once(server, "listening");
@@ -20,6 +24,7 @@ test("allows same-site frontend pages to use API-hosted media", async () => {
         });
 
         assert.equal(response.status, 200);
+        assert.deepEqual(await response.json(), { status: "ok" });
         assert.equal(response.headers.get("cross-origin-resource-policy"), "same-site");
         assert.equal(response.headers.get("access-control-allow-origin"), process.env.FRONTEND_URL || "http://localhost:3000");
     } finally {

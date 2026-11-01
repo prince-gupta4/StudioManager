@@ -22,6 +22,7 @@ import { errorHandler } from "./middlewares/error-handler.js";
 import { requireSameOrigin } from "./middlewares/same-origin.js";
 export const app = express();
 app.disable("x-powered-by");
+app.set("trust proxy", 1);
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "same-site" },
 }));
@@ -30,6 +31,7 @@ app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use(pinoHttp({ logger }));
 app.use(requireSameOrigin);
+app.get("/", (_req, res) => res.json({ status: "ok" }));
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 app.use("/api/auth", rateLimit({ windowMs: 15 * 60 * 1000, limit: 100, standardHeaders: true, legacyHeaders: false }));
 app.use("/api/auth", authRouter);
