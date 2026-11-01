@@ -364,4 +364,3 @@ The backend's current automated tests cover permission middleware, integer-paise
 - Phase 3 social CRM models and extension interfaces; no social API integrations or automation are implemented.
 - Live database integration tests, complete role-by-role browser testing, production deployment/backup runbooks.
 
-See [PROGRESS.md](./PROGRESS.md) for the actively maintained implementation checklist and validation status.
