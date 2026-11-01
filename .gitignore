@@ -6,5 +6,6 @@ dev/
 .env
 .env.*
 !.env.example
-storage/
+/storage/
+/backend/storage/
 *.log
